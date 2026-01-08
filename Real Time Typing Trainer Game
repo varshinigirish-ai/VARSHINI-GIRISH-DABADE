@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <conio.h>
+
+void countdown()
+{
+    int i;
+    for (i = 3; i >= 1; i--)
+    {
+        printf("\rGame starts in %d...", i);
+        sleep(1);
+    }
+    printf("\n\n");
+}
+
+int main()
+{
+    char text[200];
+    char ch;
+    int i = 0, correct = 0;
+    clock_t start, end;
+    double time_taken;
+    int choice;
+
+    printf("=====================================\n");
+    printf("   REAL-TIME TYPING TRAINER GAME\n");
+    printf("=====================================\n");
+
+    printf("\nChoose Level:\n");
+    printf("1. Easy\n");
+    printf("2. Medium\n");
+    printf("3. Hard\n");
+    printf("Enter choice: ");
+    scanf("%d", &choice);
+    getchar();   // clear buffer
+
+    if (choice == 1)
+        strcpy(text, "c programming is fun");
+    else if (choice == 2)
+        strcpy(text, "practice typing to improve speed");
+    else
+        strcpy(text, "real time typing trainer improves accuracy");
+
+    printf("\nType this sentence:\n\n");
+    printf("%s\n\n", text);
+
+    countdown();
+
+    start = clock();
+
+    while (i < strlen(text))
+    {
+        ch = getch();
+        printf("%c", ch);
+
+        if (ch == text[i])
+            correct++;
+
+        i++;
+    }
+
+    end = clock();
+
+    time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+
+    double words = strlen(text) / 5.0;
+    double wpm = (words / time_taken) * 60;
+    double accuracy = ((double)correct / strlen(text)) * 100;
+    int score = correct * 10;
+
+    printf("\n\n=========== GAME OVER ===========\n");
+    printf("Time Taken   : %.2f seconds\n", time_taken);
+    printf("Speed        : %.2f WPM\n", wpm);
+    printf("Accuracy     : %.2f %%\n", accuracy);
+    printf("Score        : %d\n", score);
+
+    if (accuracy > 90)
+        printf("Excellent Typing! 🏆\n");
+    else if (accuracy > 70)
+        printf("Good Job! 👍\n");
+    else
+        printf("Keep Practicing 💪\n");
+
+    return 0;
+}
